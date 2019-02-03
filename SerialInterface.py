@@ -20,4 +20,4 @@ def launch(n):
 
 def sendCMD(data):
     for i in data:
-        ser.write(ord(i))
+        ser.write(ord(i).to_bytes(1, byteorder='big'))

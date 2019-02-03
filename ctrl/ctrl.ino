@@ -28,7 +28,8 @@ void loop ()
 {
   if (Serial.available() > 0) {
     len = Serial.readBytesUntil(term, data, 64);
-    val = int(data[1])*100 + int(data[2])*10 + int(data[3]);
+    val = (int(data[1])-48)*100 + (int(data[2])-48)*10 + (int(data[3])-48);
+    Serial.println(val, DEC);
     if (data[0] == 'a') {
       clockwise(val);
     }
@@ -42,6 +43,7 @@ void loop ()
 }
 
 void clockwise(int t) {
+  t = t*29/20;
   for (i = 0; i < t; i++) {
      digitalWrite(ctr_a,LOW);//A
      digitalWrite(ctr_b,HIGH);
@@ -87,6 +89,7 @@ void clockwise(int t) {
 }
 
 void cclockwise(int t) {
+  t = t*29/20;
   for (i = 0; i < t; i++) {
      digitalWrite(ctr_a,LOW);//A
      digitalWrite(ctr_b,HIGH);
