@@ -7,6 +7,7 @@ int l = 12;
 // Counter and delay vars
 int i=0;
 int d=1000;
+int launchDur = 2000;
 // Serial stream
 char data[64];
 char term = '.';
@@ -36,8 +37,8 @@ void loop ()
     else if (data[0] == 'b') {
       cclockwise(val);
     }
-    else {
-      launch(val);
+    else if (data[0] == 'c'){
+      launch();
     }
   }
 }
@@ -86,6 +87,8 @@ void clockwise(int t) {
      digitalWrite(ctr_d,LOW);
      delayMicroseconds(d);
   }
+  digitalWrite(ctr_b, LOW);
+  digitalWrite(ctr_c, LOW);
 }
 
 void cclockwise(int t) {
@@ -132,10 +135,12 @@ void cclockwise(int t) {
      digitalWrite(ctr_d,HIGH);
      delayMicroseconds(d);
   }
+  digitalWrite(ctr_c, LOW);
+  digitalWrite(ctr_d, LOW);
 }
 
-void launch(int t) {
+void launch() {
   digitalWrite(l, HIGH);
-  delay(t);
+  delay(launchDur);
   digitalWrite(l, LOW);
 }

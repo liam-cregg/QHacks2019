@@ -1,6 +1,6 @@
 import serial
 
-ser = serial.Serial('/dev/tty96B0', 9600)
+ser = serial.Serial('/dev/tty.usbmodem14101', 9600)
 
 
 def clockwise(deg):
@@ -13,8 +13,8 @@ def counterClockwise(deg):
     sendCMD(cmd)
 
 
-def launch(n):
-    cmd = 'c' + '{:03d}'.format(n) + '.'
+def launch():
+    cmd = 'c000.'
     sendCMD(cmd)
 
 
