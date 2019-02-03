@@ -1,4 +1,5 @@
 import cv2
+# import SerialInterface as si
 
 # Change based on hardware to optimize aiming calculation
 BASE_HEIGHT = 40
@@ -12,10 +13,14 @@ def target_faces():
     # faceCascade = cv2.CascadeClassifier(
     #     "C:\\Users\\Liam\\PycharmProjects\\QHacks2019\\venv\\Lib\\site-packages\\cv2\\data\\haarcascade_frontalface_default.xml"
     # )
+
+    # The detection mode based on the xml file
     faceCascade = cv2.CascadeClassifier(
         "C:\\Users\\Bryan\\OneDrive\\Documents\\Personal Programming\\GitHub Repos\\QHacks2019\\Lib\\site-packages\\cv2\\data\\haarcascade_frontalface_default.xml"
     )
+    # Which video device the program will use
     video_capture = cv2.VideoCapture(1)
+
     face_centre = []
     while True:
         # Capture frame-by-frame
@@ -31,7 +36,7 @@ def target_faces():
         # Draw a rectangle around the faces
         for (x, y, w, h) in faces:
             cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
-            adjust_power(distance_ratio=h / BASE_HEIGHT)
+            adjust_power(distance_ratio=BASE_HEIGHT/h)
             turn_catapult(hor_target_pos=x + w / 2)
         # Display the resulting frame
         cv2.imshow("Video", frame)
@@ -42,19 +47,24 @@ def target_faces():
     cv2.destroyAllWindows()
 
 
-def adjust_power(distance_ratio):
-    print("Distanceratio = " + str(distance_ratio))
-
-
 def turn_catapult(hor_target_pos):
     offset = hor_target_pos - SCREEN_CENTRE
-    turn_degree = abs(offset * SCALE)
-    if offset > 0:
-        # Call the turn right function
-        direction = "right"
-    else:
-        # Call the turn left function
-        direction = "left"
+    turn_degree = round(abs(offset * SCALE))
+    print("Degree = " + str(turn_degree))
+    # if offset > 0:
+    #     # Call the turn right function
+    #     si.clockwise(turn_degree)
+    # else:
+    #     # Call the turn left function
+    #     si.counterClockwise(turn_degree)
+
+
+def adjust_power(distance_ratio):
+    power = round(distance_ratio * 100)
+    if power > 255:
+        power = 255
+    # si.launch(power)
+    # print("Power = " + str(power))
 
 
 def main():
